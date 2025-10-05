@@ -10,3 +10,5 @@ Repo for all programmers and coders. Hacktoberfest2025
 - 💻 CSS
 - 💻 HTML
 - 💻 Nodejs
+- 💻 Reactjs
+- 💻 Sql
