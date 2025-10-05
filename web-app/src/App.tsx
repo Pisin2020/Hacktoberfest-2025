@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import LoadingScreen from './components/LoadingScreen';
-import Navbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import Features from './components/Features';
-import FeaturedCourses from './components/FeaturedCourses';
-import Testimonials from './components/Testimonials';
-import Footer from './components/Footer';
-import FloatingActions from './components/FloatingActions';
+import Home from './components/Home';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import NotFound from './components/NotFound';
 import './App.css';
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const handleLoadingComplete = () => {
@@ -24,15 +21,14 @@ function App() {
         {isLoading ? (
           <LoadingScreen key="loading" onLoadingComplete={handleLoadingComplete} />
         ) : (
-          <div key="main">
-            <Navbar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-            <HeroSection />
-            <Features />
-            <FeaturedCourses />
-            <Testimonials />
-            <Footer />
-            <FloatingActions />
-          </div>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Router>
         )}
       </AnimatePresence>
     </div>
