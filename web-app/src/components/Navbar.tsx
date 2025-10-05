@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X, Search, Bell } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface NavbarProps {
   isMenuOpen: boolean;
@@ -8,6 +9,20 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
+
+  const handleSignupClick = () => {
+    navigate('/signup');
+  };
+
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   return (
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
@@ -19,9 +34,10 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <motion.div 
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 cursor-pointer"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
+            onClick={handleLogoClick}
           >
             <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center">
               <span className="text-white font-bold text-xl">C</span>
@@ -70,6 +86,7 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="btn-secondary text-sm"
+              onClick={handleLoginClick}
             >
               Log In
             </motion.button>
@@ -78,6 +95,7 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="btn-primary text-sm"
+              onClick={handleSignupClick}
             >
               Sign Up
             </motion.button>
@@ -114,8 +132,18 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
             </button>
           ))}
           <div className="pt-4 border-t border-gray-200 space-y-3">
-            <button className="w-full btn-secondary text-sm">Log In</button>
-            <button className="w-full btn-primary text-sm">Sign Up</button>
+            <button 
+              className="w-full btn-secondary text-sm"
+              onClick={handleLoginClick}
+            >
+              Log In
+            </button>
+            <button 
+              className="w-full btn-primary text-sm"
+              onClick={handleSignupClick}
+            >
+              Sign Up
+            </button>
           </div>
         </div>
       </motion.div>
