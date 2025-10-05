@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, Search, Bell } from 'lucide-react';
+import { Menu, X, Search, Bell, User, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 interface NavbarProps {
   isMenuOpen: boolean;
@@ -10,6 +11,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const handleLoginClick = () => {
     navigate('/login');
@@ -20,6 +22,11 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   };
 
   const handleLogoClick = () => {
+    navigate('/');
+  };
+
+  const handleLogout = () => {
+    logout();
     navigate('/');
   };
 
@@ -82,23 +89,47 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
               <Bell className="w-5 h-5" />
             </motion.button>
             
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="btn-secondary text-sm"
-              onClick={handleLoginClick}
-            >
-              Log In
-            </motion.button>
-            
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="btn-primary text-sm"
-              onClick={handleSignupClick}
-            >
-              Sign Up
-            </motion.button>
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2">
+                  <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center">
+                    <User className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">
+                    {user?.firstName}
+                  </span>
+                </div>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="btn-secondary text-sm flex items-center space-x-1"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Logout</span>
+                </motion.button>
+              </div>
+            ) : (
+              <>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="btn-secondary text-sm"
+                  onClick={handleLoginClick}
+                >
+                  Log In
+                </motion.button>
+                
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="btn-primary text-sm"
+                  onClick={handleSignupClick}
+                >
+                  Sign Up
+                </motion.button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -132,18 +163,40 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
             </button>
           ))}
           <div className="pt-4 border-t border-gray-200 space-y-3">
-            <button 
-              className="w-full btn-secondary text-sm"
-              onClick={handleLoginClick}
-            >
-              Log In
-            </button>
-            <button 
-              className="w-full btn-primary text-sm"
-              onClick={handleSignupClick}
-            >
-              Sign Up
-            </button>
+            {isAuthenticated ? (
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2 px-3 py-2 bg-gray-50 rounded-lg">
+                  <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center">
+                    <User className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">
+                    {user?.firstName} {user?.lastName}
+                  </span>
+                </div>
+                <button 
+                  className="w-full btn-secondary text-sm flex items-center justify-center space-x-1"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Logout</span>
+                </button>
+              </div>
+            ) : (
+              <>
+                <button 
+                  className="w-full btn-secondary text-sm"
+                  onClick={handleLoginClick}
+                >
+                  Log In
+                </button>
+                <button 
+                  className="w-full btn-primary text-sm"
+                  onClick={handleSignupClick}
+                >
+                  Sign Up
+                </button>
+              </>
+            )}
           </div>
         </div>
       </motion.div>
