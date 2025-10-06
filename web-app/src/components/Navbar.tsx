@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, Search, Bell, User, LogOut } from 'lucide-react';
+// Notice the 'useState' is now explicitly used here
+import { Menu, X, Search, Bell, User, LogOut } from 'lucide-react'; 
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -12,6 +13,34 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
+
+  // 1. ADD STATE FOR SEARCH INPUT
+  const [searchText, setSearchText] = useState('');
+
+  // --- Search Handlers ---
+  
+  // 2. CORE SEARCH LOGIC (Navigates to a search results page)
+  const handleSearch = () => {
+    if (searchText.trim() !== '') {
+      console.log('Navigating to search results for:', searchText.trim());
+      
+      // In a real application, this routes the user to a search page 
+      // with a query parameter (e.g., /search?q=React).
+      navigate(`/search?q=${encodeURIComponent(searchText.trim())}`);
+      
+      // Optional: Clear the search input after navigation
+      setSearchText('');
+    }
+  };
+
+  // 3. KEY PRESS HANDLER (Triggers search on Enter)
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  // --- Existing Navigation Handlers ---
 
   const handleLoginClick = () => {
     navigate('/login');
@@ -67,13 +96,18 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
             ))}
           </div>
 
-          {/* Search Bar */}
+          {/* Search Bar (MODIFIED) */}
           <div className="hidden lg:flex items-center flex-1 max-w-md mx-8">
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Search for courses..."
+                // 4. ATTACH STATE AND HANDLERS
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                onKeyDown={handleKeyDown}
+                // -----------------------------
                 className="w-full pl-10 pr-4 py-2 bg-white/50 border border-white/30 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
               />
             </div>
@@ -153,7 +187,7 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
         transition={{ duration: 0.3 }}
         className="md:hidden overflow-hidden bg-white/90 backdrop-blur-md"
       >
-        <div className="px-4 py-6 space-y-4">
+        <div className="px-4 py-6 space-y-4">          
           {['Courses', 'For Business', 'For Students', 'Teach'].map((item) => (
             <button
               key={item}
