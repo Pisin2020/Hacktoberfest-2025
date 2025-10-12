@@ -1,0 +1,40 @@
+{
+  "type": "module",
+  "scripts": {
+    "build": "tsc && tsc-alias",
+    "http": "NODE_ENV=development tsx watch --env-file=.env ./src/httpServer.ts",
+    "test": "mocha"
+  },
+  "engines": {
+    "node": ">=23.0.0",
+    "npm": ">=11.0.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.18.10",
+    "mocha": "^11.7.4",
+    "prettier": "^3.6.2",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.16",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": false,
+    "tabWidth": 2,
+    "trailingComma": "none"
+  },
+  "mocha": {
+    "extension": [
+      "ts"
+    ],
+    "require": "tsx",
+    "reporter": "spec",
+    "spec": [
+      "src/test/**/*.ts"
+    ]
+  }
+}
