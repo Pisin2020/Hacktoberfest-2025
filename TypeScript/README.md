@@ -8,20 +8,26 @@ An example of fully typed Node.JS HTTP server.
 
 ### Dependencies
 
-```
+```bash
 npm install
 ```
 
 ### Development (HTTP Server)
 
-```
+```bash
 npm run http
 ```
 
 ### Build
 
-```
+```bash
 npm run build
+```
+
+### Test
+
+```bash
+curl http://localhost:3000/
 ```
 
 ## Environment
