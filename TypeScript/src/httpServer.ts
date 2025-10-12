@@ -19,7 +19,7 @@ const headers = {
 } satisfies Readonly<Partial<ServerHeaders>>;
 
 const body = JSON.stringify({
-  data: "hello_world! response from typescript-http-server",
+  data: "hello_world! response from typescript-http-server.",
   errors: []
 });
 
@@ -29,7 +29,7 @@ const onRequest = (_: ClientRequest, response: ServerResponse) => {
 
 const onError = (error: ServerError) => {
   if (error.code === "EADDRINUSE") {
-    console.error("Error: ", "Address is in use, change enviroment variables");
+    console.error("Error: ", "Address is in use, change enviroment variables.");
   }
 
   console.error("Error: ", error);
